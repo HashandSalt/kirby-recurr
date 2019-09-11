@@ -3,7 +3,7 @@
  *
  * Recurring Dates for Kirby 3
  *
- * @version   0.0.1
+ * @version   0.0.2
  * @author    James Steel <https://hashandsalt.com>
  * @copyright James Steel <https://hashandsalt.com>
  * @link      https://github.com/HashandSalt/recurr
@@ -19,8 +19,8 @@ Kirby::plugin('hashandsalt/recurr', [
     'format' => 'm-d-y g:ia',
   ],
 
-  // Page Methods
-  'pageMethods' => [
+  // Site Methods
+  'siteMethods' => [
       'recurr' => function ($start, $end, $freq, $byday, $until) {
 
           $transformer = new \Recurr\Transformer\ArrayTransformer();
