@@ -3,7 +3,7 @@
  *
  * Recurring Dates for Kirby 3
  *
- * @version   0.0.2
+ * @version   0.0.1
  * @author    James Steel <https://hashandsalt.com>
  * @copyright James Steel <https://hashandsalt.com>
  * @link      https://github.com/HashandSalt/recurr
@@ -17,6 +17,12 @@ Kirby::plugin('hashandsalt/recurr', [
   'options' => [
     'timezone' => 'Europe/London',
     'format' => 'm-d-y g:ia',
+  ],
+
+  // Blueprints
+  'blueprints' => [
+    // Fields
+    'fields/event'      => __DIR__ . '/blueprints/fields/event.yml',
   ],
 
   // Site Methods
@@ -51,6 +57,18 @@ Kirby::plugin('hashandsalt/recurr', [
 					return $dates;
       },
   ],
+
+  // Field Methods
+  'fieldMethods' => [
+      'recurrdays' => function ($field) {
+        $days = explode(', ', $field->upper());
+        return $days;
+      },
+      'recurrfreq' => function ($field) {
+        $f = $field->upper()->value();
+        return $f;
+      }
+  ]
 
 
 ]);
