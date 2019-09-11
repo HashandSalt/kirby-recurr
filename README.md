@@ -27,10 +27,10 @@ This plugin is free but if you use it in a commercial project please consider to
 
 ## Usage
 
-Use as a page method:
+Use as a site method:
 
 ```
-$datelist = $page->recurr('2019-09-10 20:00:00', '2019-09-11 02:00:00', 'WEEKLY', ['WE', 'TH', 'FR'], '2019-10-11');
+$datelist = $site->recurr('2019-09-10 20:00:00', '2019-09-11 02:00:00', 'WEEKLY', ['WE', 'TH', 'FR'], '2019-10-11');
 ```
 
 In the example above, we are feeding it Start Time, End Time, Frequency, Days to repeat on and the date to stop the range. The above example repeats every week but only on Wednesdays, Thursdays and Fridays. Then you can loop through it:
