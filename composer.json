@@ -1,0 +1,17 @@
+{
+  "name": "hashandsalt/kirby-recurr",
+  "description": "Kirby 3 Recurring Date Helper",
+  "type": "kirby-plugin",
+  "license": "MIT",
+  "authors": [{
+    "name": "James Steel",
+    "email": "hello@hashandsalt.com"
+  }],
+  "require": {
+    "getkirby/composer-installer": "^1.1",
+    "simshaun/recurr": "^4.0"
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}
