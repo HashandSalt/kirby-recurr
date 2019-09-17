@@ -6,7 +6,7 @@ fields:
     time: true
     width: 1/4
   eend:
-    label: Event Start
+    label: Event End
     type: date
     time: true
     width: 1/4
