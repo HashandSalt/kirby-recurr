@@ -3,7 +3,7 @@
  *
  * Recurring Dates for Kirby 3
  *
- * @version   0.0.1
+ * @version   0.0.5
  * @author    James Steel <https://hashandsalt.com>
  * @copyright James Steel <https://hashandsalt.com>
  * @link      https://github.com/HashandSalt/recurr
@@ -14,45 +14,94 @@
 
 Kirby::plugin('hashandsalt/recurr', [
 
+  // Options
   'options' => [
     'timezone' => 'Europe/London',
     'format' => 'm-d-y g:ia',
   ],
 
+  // Snippets
+  'snippets' => [
+    // Upcoming
+    'events/upcoming' => __DIR__ . '/snippets/events/upcoming.php',
+  ],
+
   // Blueprints
   'blueprints' => [
     // Fields
-    'fields/event'      => __DIR__ . '/blueprints/fields/event.yml',
+    'fields/event' => __DIR__ . '/blueprints/fields/event.yml',
+  ],
+
+  // Filter Past Pages
+  'collectionFilters' => [
+        'datebefore' => function ($collection, $field, $test, $split = false) {
+            foreach ($collection->data as $key => $item ) {
+                $datetime = $collection->getAttribute($item, $field, $split, $test);
+                if (!$datetime || strtotime($datetime) > strtotime($test) ) {
+                    continue;
+                }
+                unset($collection->$key);
+            }
+
+            return $collection;
+        }
   ],
 
   // Site Methods
   'siteMethods' => [
-      'recurr' => function ($start, $end, $freq, $byday, $until) {
+      'recurr' => function ($start, $end, $freq, $byday, $until, $rrule = false) {
 
           $transformer = new \Recurr\Transformer\ArrayTransformer();
-
           $rtimezone    = option('hashandsalt.recurr.timezone');
+
           $rstartDate   = new \DateTime($start, new \DateTimeZone($rtimezone));
           $rendDate     = new \DateTime($end, new \DateTimeZone($rtimezone));
+
           $rfreq        = $freq;
           $rbyday       = $byday;
           $runtil       = $until;
 
+          if ($rfreq == 'MONTHLY' || $rfreq == 'YEARLY') {
 
-					$recurr = (new \Recurr\Rule)->setTimezone($rtimezone)->setStartDate($rstartDate)->setEndDate($rendDate)->setFreq($freq)->setByDay($byday)->setUntil(new \DateTime($until));
-          $collection = $transformer->transform($recurr);
+            if ($end !== null) {
+              $recurr = (new \Recurr\Rule)->setTimezone($rtimezone)->setStartDate($rstartDate)->setEndDate($rendDate)->setFreq($freq)->setByDay($byday)->setUntil(new \DateTime($until));
+            } else {
+              $recurr = (new \Recurr\Rule)->setTimezone($rtimezone)->setStartDate($rstartDate)->setFreq($freq)->setByDay($byday)->setUntil(new \DateTime($until));
+            }
 
-          // Output the dates
-          $dates = $collection->map(function (\Recurr\Recurrence $recurrence) {
+          } else {
 
-              $start  =   $recurrence->getStart()->format(option('hashandsalt.recurr.format'));
-              $end    =   $recurrence->getEnd()->format(option('hashandsalt.recurr.format'));
+            if ($end !== null) {
+              $recurr = (new \Recurr\Rule)->setTimezone($rtimezone)->setStartDate($rstartDate)->setEndDate($rendDate)->setUntil(new \DateTime($until));
+            } else {
+              $recurr = (new \Recurr\Rule)->setTimezone($rtimezone)->setStartDate($rstartDate)->setUntil(new \DateTime($until));
+            }
 
-              $datelist = ["start" => $start, "end" => $end];
+          }
 
-              return $datelist;
+          // Output RRULE
+          if ($rrule) {
 
-          })->toArray();
+            $dates = $recurr->getString();
+
+          } else {
+
+            // Output Date time object
+            $collection = $transformer->transform($recurr);
+            // Output the dates
+            $dates = $collection->map(function (\Recurr\Recurrence $recurrence) {
+
+                $start  =   $recurrence->getStart()->format(option('hashandsalt.recurr.format'));
+                $end    =   $recurrence->getEnd()->format(option('hashandsalt.recurr.format'));
+
+                $datelist = ["start" => $start, "end" => $end];
+
+                return $datelist;
+
+            })->toArray();
+
+          }
+
 
 					return $dates;
       },

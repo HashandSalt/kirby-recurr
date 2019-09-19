@@ -1,36 +1,43 @@
 type:           group
 fields:
   estart:
-    label: Event Start
-    type: date
-    time: true
-    width: 1/4
+    label:      Event Start
+    type:       date
+    time:       true
+    width:      1/4
   eend:
-    label: Event End
-    type: date
-    time: true
-    width: 1/4
+    label:      Event End
+    type:       date
+    time:       true
+    width:      1/4
   efreq:
-    label: Event Frequency
-    type: select
-    width: 1/4
+    label:      Event Frequency
+    type:       select
+    width:      1/4
     options:
-      weekly: Weekly
-      monthly: Monthly
-      annually: Annually
+      secondly: Secondly
+      minutely: Minutely
+      hourly:   Hourly
+      daily:    Daily
+      weekly:   Weekly
+      monthly:  Monthly
+      yearly:   Yearly
   erange:
-    label: Event Range End
-    type: date
-    time: true
-    width: 1/4
+    label:      Event Range End
+    type:       date
+    time:       true
+    width:      1/4
   ebyday:
-    label: Event Days
-    type: multiselect
+    label:      Event Days
+    type:       multiselect
     options:
-      mo: Monday
-      tu: Tuesday
-      we: Wednesday
-      th: Thursday
-      fr: Friday
-      sa: Saturday
-      su: Sunday
+      mo:       Monday
+      tu:       Tuesday
+      we:       Wednesday
+      th:       Thursday
+      fr:       Friday
+      sa:       Saturday
+      su:       Sunday
+  edescription:
+    label:      Event Description
+    type:       editor
