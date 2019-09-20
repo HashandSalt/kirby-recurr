@@ -3,7 +3,7 @@
  *
  * Recurring Dates for Kirby 3
  *
- * @version   0.0.5
+ * @version   0.0.6
  * @author    James Steel <https://hashandsalt.com>
  * @copyright James Steel <https://hashandsalt.com>
  * @link      https://github.com/HashandSalt/recurr
@@ -72,9 +72,9 @@ Kirby::plugin('hashandsalt/recurr', [
           } else {
 
             if ($end !== null) {
-              $recurr = (new \Recurr\Rule)->setTimezone($rtimezone)->setStartDate($rstartDate)->setEndDate($rendDate)->setUntil(new \DateTime($until));
+              $recurr = (new \Recurr\Rule)->setTimezone($rtimezone)->setStartDate($rstartDate)->setEndDate($rendDate)->setFreq($freq)->setUntil(new \DateTime($until));
             } else {
-              $recurr = (new \Recurr\Rule)->setTimezone($rtimezone)->setStartDate($rstartDate)->setUntil(new \DateTime($until));
+              $recurr = (new \Recurr\Rule)->setTimezone($rtimezone)->setStartDate($rstartDate)->setFreq($freq)->setUntil(new \DateTime($until));
             }
 
           }
