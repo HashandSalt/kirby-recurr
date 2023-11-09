@@ -40,4 +40,4 @@ fields:
       su:       Sunday
   edescription:
     label:      Event Description
-    type:       editor
+    type:       writer
